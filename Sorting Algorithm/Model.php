@@ -4,10 +4,12 @@
  * 1.冒泡排序(Bubble Sort)---两两对比
  * 2.选择排序(Selection Sort)
  * 3.计数排序(Counting Sort)---要求有明确的数据范围
- * 4.桶排序(Bucket Sort)---计数排序的升级版，放置有限个区间内元素到桶内，然后桶内进行排序
+ * 4.桶排序(Bucket Sort)---计数排序的升级版，放置有限个区间内元素到桶内，然后桶内进行排序，不能负数，小数
  * 5.插入排序(Insert Sort)---打扑克的时候，抓牌然后整理牌
  * 6.快速排序(Quick Sort)
  * 7.随机快速排序(Random Quick Sort)
+ * 8.基数排序(Radix Sort)---用于元素数据变化差异大的，不能负数，小数
+ * 9.堆排序(Heap Sort)
  */
 
 /**
@@ -90,7 +92,7 @@ function Selection_Sort($order,$data){
 
 /**
  * 计数排序
- * 执行效率低，待改进或参考其他最优解，还有一种升级版---桶排序(Bucket Sort)
+ * 执行效率低，待改进或参考其他最优解，一般在使用区间范围小的情况下使用，无法在有小数和负数的情况下使用，还有一种升级版---桶排序(Bucket Sort)
  * @param $order number
  * @param $data array
  * @return array
