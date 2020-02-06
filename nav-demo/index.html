@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="CSS/style.css">
+    <title>快速导航---一个简单的导航网站</title>
+</head>
+<body>
+	<div class='wrap'>
+		<div class="main" id='main'>
+	</div>
+	</div>
+    <script>
+		// 初始化
+        var keys = {
+            0:{0:'q',1:'w',2:'e',3:'r',4:'t',5:'y',6:'u',7:'i',8:'o',9:'p',length:'10'},
+            1:{0:'a',1:'s',2:'d',3:'f',4:'g',5:'h',6:'j',7:'k',8:'l',length:'9'},
+            2:{0:'z',1:'x',2:'c',3:'v',4:'b',5:'n',6:'m',length:'7'},
+            length:3
+        }; 
+        var hash = {
+            q:'https://www.qq.com',
+			w:'https://weibo.com',
+			e:'https://www.taobao.com',
+			r:null,
+			t:null,
+			y:null,
+			u:null,
+			i:null,
+			o:null,
+			p:null,
+			a:null,
+			s:null,
+			d:null,
+			f:null,
+			g:null,
+			h:null,
+			j:null,
+			k:null,
+			l:null,
+			z:null,
+			x:null,
+			c:null,
+			v:null,
+			b:null,
+			n:null,
+			m:null
+        };
+		if(!localStorage.getItem('Dc')){localStorage.setItem('Dc',JSON.stringify(hash));}
+		hash=JSON.parse(localStorage.getItem('Dc'));
+		main=document.getElementById('main');
+		
+		// 生成标签&事务处理
+		for(var i=0;i<=keys['length']-1;i++){
+			divTag=main.appendChild(Tags('div'));
+			for(var j=1;j<=keys[i]['length']-1;j++){
+				kbdTag=divTag.appendChild(Tags('kbd'));
+				spanTag=kbdTag.appendChild(Tags('span',{textContent:keys[i][j]}));
+				imgTag=kbdTag.appendChild(Tags('img',{width:'24',height:'24',src:getIco(hash[keys[i][j]])}));
+				buttonTag=kbdTag.appendChild(Tags('button',{textContent:'编辑'}));
+				buttonTag.key=keys[i][j];
+				buttonTag.onclick=function(e){
+					domain=prompt('请输入要更改的地址');
+					if(domain){
+						e.target.previousSibling.src=getIco(domain);
+						hash[e.target.key]=domain;
+						localStorage.setItem('Dc',JSON.stringify(hash));
+					}
+				}
+			}
+		}
+		
+		// 键盘监听
+		document.onkeypress=function(e){
+			if(e.key>='a' && e.key<='z' || e.key>='A' && e.key<='Z'){
+				if(hash[e.key.toLowerCase()]){
+					window.open(hash[e.key.toLowerCase()],'_target');
+				}else{
+					console.log('这个事件还未定义');
+				}
+			}else{
+				console.log('不在监控范围内的键');
+			}
+		}
+		/**
+		 * 创建标签的函数
+		 */
+		function Tags(TagName,Attr=null){
+			var res=document.createElement(TagName);
+			if(Attr){
+				for(val in Attr){
+					res[val]=Attr[val];
+				}
+			}
+			return res;
+		}
+		
+		/**
+		 * 获取ico图标
+		 */
+		function getIco(domain){
+			var img=document.createElement('img');
+			if(domain){
+				img.src=domain+'/favicon.ico';
+				img.onerror=function(){
+				img.src='https://files.catbox.moe/9s75n4.ico';
+				}
+			}else{
+				img.src='https://files.catbox.moe/9s75n4.ico';
+			}
+			return img.src;
+		}
+    </script>
+</body>
+</html>
