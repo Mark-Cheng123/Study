@@ -1,0 +1,6 @@
+body,canvas,html,div{
+	margin: 0;
+}
+#canvas{
+	background-color: #a3a3a3;
+}
