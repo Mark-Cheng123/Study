@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lanh='zh-CN'>
+    <head>
+        <meta charset='UTF-8'>
+        <title>canvas相关等等的代码</title>
+        <style>
+          *{
+            margin:0;
+            padding:0;
+          }
+          #canvas{
+            background-color: #eee;
+            display: inline-block;
+          }
+        </style>
+    </head>
+    <body>
+        <canvas id='canvas' width='400px' height='400px'></canvas>
+        <script>
+        	var canvas=document.getElementById('canvas');
+            var content=canvas.getContext('2d') // 获取canvas的上下文
+            var is_draw=false;
+            var lastLine={x:undefined,y:undefined};
+            var newLine={x:undefined,y:undefined};
+            if(document.body.ontouchstart===null){
+                // 手机端
+                canvas.ontouchstart=function(e){
+                    // 按下触摸
+                    is_draw=true;
+                    lastLine={x:e.touches[0].clientX,y:e.touches[0].clientY};
+                }
+                canvas.ontouchmove=function(e){
+                    // 触摸中
+                    if(is_draw){
+                        newLine={x:e.touches[0].clientX,y:e.touches[0].clientY};
+                        Draw_Line(lastLine,newLine);
+                        lastLine=newLine; 
+                    }
+                    
+                }
+                canvas.ontouchend=function(e){
+                    // 取消触摸
+                    is_draw=false;
+                }
+            }else{
+                // 电脑端
+                canvas.onmousedown=function(e){
+                    // 按下点击
+                    is_draw=true;
+                    lastLine={x:e.clientX,y:e.clientY};
+                }
+                canvas.onmousemove=function(e){
+                    // 点击中
+                    if(is_draw){
+                   		newLine={x:e.clientX,y:e.clientY};
+                    	Draw_Line(lastLine,newLine);
+                    	lastLine=newLine;
+                	}
+                }
+                canvas.onmouseup=function(e){
+                    // 取消点击
+                    is_draw=false;
+                }
+            }
+            function Draw_Line(lastLine,newLine,width=5,color='red'){
+                content.beginPath(); // 开始绘画
+                content.strokeStyle=color; // 设置画笔颜色
+                content.lineWidth=width; //设置画笔宽度
+                content.moveTo(lastLine.x,lastLine.y); // 移动到指定位置开始绘画
+				content.lineTo(newLine.x,newLine.y); // 画一条线到指定位置
+                content.stroke();
+                content.closePath(); // 结束绘画
+            }
+        </script>
+    </body>
+</html>

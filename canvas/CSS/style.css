@@ -1,6 +1,15 @@
-body,canvas,html,div{
+body,canvas,html,div,button{
 	margin: 0;
+	padding: 0;
+	overflow: hidden;
 }
 #canvas{
-	background-color: #a3a3a3;
+	display: block;
+	background: #eee url('../img/bg.png') repeat;
+	/* height: 100vh; */
+}
+#btn{
+	position: fixed;
+	left: 0;
+	bottom: 0;
 }
