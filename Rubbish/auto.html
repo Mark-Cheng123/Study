@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/17.1.1/Tween.min.js" type="text/javascript" charset="utf-8"></script>
+	<title>自动加载</title>
+	<!--
+	 要求
+	 1.加载页面时有一个画面√
+	 2.NavBar要有动画效果√
+	 3.二级元素显示
+	 4.点击到达指定位置√
+	 -->
+	 <style>
+		 *{
+			 margin: 0;
+			 padding: 0;
+		 }
+		 .loading{
+			 width:300px;
+			 height:300px;
+			 position: relative;
+		 }
+		 .loading::before,.loading::after{
+			 content: '';
+			 width: 50px;
+			 height: 50px;
+			 border-radius: 50%;
+			 background-color: #111;
+			 position: absolute;
+			 top: 0;
+			 right: 0;
+			 bottom: 0;
+			 left: 0;
+			 margin: auto;
+			 animation: loading .5s linear infinite;
+		 }
+		 .loading::after{
+			 animation-delay: .25s;
+		 }
+		 @keyframes loading{
+		 	from{width: 0;height: 0;opacity:1;}
+		 	to{width: 200px;height: 200px;opacity:0;}
+		 }
+		 .site_loading{
+			 position: fixed;
+			 width: 100%;
+			 height: 100%;
+			 display: none;
+			 background-color: #DEFCCC;
+		 }
+		 .site_loading.active{
+			 display: flex;
+			 justify-content: center;
+			 align-items: center;
+			 z-index: 1;
+		 }
+		 .nav{
+			 height:60px;
+			 width:100%;
+			 background-color: #000;
+		 }
+		 ul{
+			 list-style-type: none;
+		 }
+		 a{
+			text-decoration: none;
+			color: #fff;
+		 }
+		 ul>li{
+			 float: left;
+			 padding: 0 5px;
+		 }
+		 .nav{
+			 position:sticky;
+			 top: 0;
+			 left: 0;
+			 font-size: 1.2rem;
+			 line-height: 60px;
+			 overflow: hidden;
+			 padding: 0 5px;
+			 transition: 0.5s;
+		 }
+		 .nav ul li{
+			 position: relative;
+		 }
+		 .li_u::after{
+			 content: '';
+			 display: block;
+			 position: absolute;
+			 left: 0;
+			 bottom:3px;
+			 height: 5px;
+			 width: 100%;
+			 background-color: #e6686a;
+			 animation:nav-go .3s;
+		 }
+		 @keyframes nav-go{
+		 	from{width:0}
+		 	to{width:100%}
+		 }
+		 .navBig{
+			height:80px;
+			line-height: 80px;
+			font-size: 1.3rem;
+			background-color: #555555;
+		 }
+		 img{
+			 width: 50%;
+			 margin: 0 25%;
+		 }
+	 </style>
+</head>
+<body>
+	<div class="site_loading active">
+		<div class="loading"></div>
+	</div>
+	<div class="all">
+		<div class="nav">
+			<ul>
+				<li><a href="#x1">学校一</a></li>
+				<li><a href="#x2">学校二</a></li>
+				<li><a href="#x3">学校三</a></li>
+				<li><a href="#x4">学校四</a></li>
+				<li><a href="#x5">学校五</a></li>
+				<li><a href="#x6">学校六</a></li>
+			</ul>
+		</div>
+		<div data-act class='x1' name='x1' id='x1' style='margin:0;font-size: 1.2rem;'>
+			<img src="img/0.jpg">
+			<img src="img/1.jpg">
+			<img src="img/2.jpg">
+			<img src="img/3.jpg">
+		</div>
+		<div data-act class='x2' name='x2' id='x2' style='margin:50px 0;font-size: 1.2rem;'>
+			<img src="img/4.jpg">
+			<img src="img/5.jpg">
+			<img src="img/6.jpg">
+			<img src="img/7.jpg">
+		</div>
+		<div data-act class='x3' name='x3' id='x3' style='margin:50px 0;font-size: 1.2rem;'>
+			<img src="img/8.jpg">
+			<img src="img/9.jpg">
+			<img src="img/10.jpg">
+			<img src="img/11.jpg">
+		</div>
+		<div data-act class='x4' name='x4' id='x4' style='margin:50px 0;font-size: 1.2rem;'>
+			<img src="img/12.jpg">
+			<img src="img/13.jpg">
+			<img src="img/14.jpg">
+			<img src="img/15.jpg">
+		</div>
+		<div data-act class='x5' name='x5' id='x5' style='margin:50px 0;font-size: 1.2rem;'>
+			<img src="img/16.jpg">
+			<img src="img/17.jpg">
+			<img src="img/18.jpg">
+			<img src="img/19.jpg">
+		</div>
+		<div data-act class='x6' name='x6' id='x6' style='margin:50px 0;font-size: 1.2rem;'>
+			<img src="img/20.jpg">
+			<img src="img/21.jpg">
+			<img src="img/22.jpg">
+			<img src="img/23.jpg">
+		</div>
+		<div class="show" style='height: 600px;'></div>
+	</div>
+	<script type="text/javascript">
+		var Tags=document.getElementsByTagName('li');
+		for(var i=0;i<=Tags.length-1;i++){
+			Tags[i].onmouseenter=function(e){
+				e.target.classList.add('li_u');
+			};
+			Tags[i].onmouseleave=function(e){
+				e.target.classList.remove('li_u');
+			};
+			
+		}
+		function animate(time) {
+		    requestAnimationFrame(animate);
+		    TWEEN.update(time);
+		}
+		requestAnimationFrame(animate);
+		window.onscroll=function(e){
+			if(window.pageYOffset>1){
+				document.getElementsByClassName('nav')[0].classList.add('navBig');
+			}else{
+				document.getElementsByClassName('nav')[0].classList.remove('navBig');
+			}
+			/*
+			心态崩了
+			var data_num=document.querySelectorAll('[data-act]');
+			for(var i=0;i<data_num.length;i++){
+				if(i<data_num.length-1){
+					if(window.scrollY+document.documentElement.clientHeight>data_num[i].offsetTop && window.scrollY+document.documentElement.clientHeight<data_num[i+1].offsetTop){
+						document.querySelector('a[href="#'+data_num[i].getAttribute('name')+'"]').parentNode.classList.add('li_u');
+						break;
+					}
+				}
+				else{
+					document.querySelector('a[href="#'+data_num[i].getAttribute('name')+'"]').parentNode.classList.add('li_u');
+				}
+			}
+			*/
+		}
+		var aTags=document.querySelectorAll('.nav>ul>li>a');
+		for(var i=0;i<aTags.length;i++){
+			aTags[i].onclick=function(e){
+				e.preventDefault();
+				let x=e.currentTarget;
+				let y=document.querySelector(x.getAttribute('href'));
+				let t=25;
+				let v=500/t;
+				let start=window.scrollY;
+				let end=y.offsetTop-80;
+				let s=(end-start)/t;
+				let coords = {y:start};
+				let tween = new TWEEN.Tween(coords)
+				        .to({ y:end}, 1000)
+				        .easing(TWEEN.Easing.Exponential.In)
+				        .onUpdate(() => {
+							window.scrollTo(0,coords.y)
+						})
+				        .start()
+			};
+		}
+	</script>
+	<script type="text/javascript">
+		setTimeout(function(){
+			document.getElementsByClassName('site_loading')[0].classList.remove('active');
+		},1000);
+	</script>
+</body>
+</html>

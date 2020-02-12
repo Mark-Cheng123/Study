@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>标题</title>
+	<style>
+		*{
+			margin: 0;
+		}
+		.box{
+			position: fixed;
+		    width:100px;
+		    height:100px;
+		    background-color:#ddd;
+		    animation:go 5s linear 2s infinite ; // 播放一次需要5s，平均速度，延时2s无限播放，来回播放
+		}
+		@keyframes go{
+		    0%{top:0%;left:0%;}
+		    25%{top:80%;left:0%;}
+		    50%{top:80%;left:80%;}
+		    75%{top:0%;left:80%;}
+		    100%{top:50%;left:50%;}
+		}
+	</style>
+</head>
+<body>
+	<div class="box"></div>
+</body>
+</html>
